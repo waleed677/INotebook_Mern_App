@@ -43,6 +43,37 @@ router.post('/createNotes',fetchUser,[
   
   });
 
+
+   // Route 3 Update Notes Using the PUT 
+
+   router.put('/updateNote/:id', fetchUser , [
+      body('title', 'Please Enter Valid Title'),
+      body('description', 'Please enter Valid Description'),
+      body('tag', 'Please enter a valid Tags')
+   ], async(req,res)=>{
+      const errors = validationResult(req);
+      if(!errors.isEmpty()){
+         return res.status(400).json({errors: errors.array()})
+      }
+
+      const {title, description , tag} = req.body;
+      const noteUpdated = {};
+
+      if(title){noteUpdated.title = title}
+      if(description){noteUpdated.description = description}
+      if(tag){noteUpdated.tag = tag}
+
+      let note = await Notes.findById(req.params.id);
+      if(!note){res.status(404).json({error:"Not Found"})}
+
+      if(note.user.toString() !== req.user.id){
+         res.status(401).json({error:"Not Allowed"})
+      }
+
+      note = await Notes.findByIdAndUpdate(req.params.id,{$set:noteUpdated}, {new:true})
+      res.json(note);
+   })
+
  
 
 
