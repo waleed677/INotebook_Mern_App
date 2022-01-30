@@ -8,17 +8,17 @@ const { body, validationResult } = require('express-validator');
 router.post('/createNotes', fetchUser, [
    body('title', 'Please enter a valid Title').isLength({ min: 3 }),
    body('description', 'Please enter a valid description').isLength({ min: 5 }),
-   body('tag', 'Please enter a valid tag').isLength({ min: 5 }),
+   body('tags', 'Please enter a valid tag').isLength({ min: 5 }),
 ], async (req, res) => {
    try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
          return res.status(400).json({ errors: errors.array() });
       }
-      const { title, description, tag } = req.body;
+      const { title, description, tags } = req.body;
 
       const notes = new Notes({
-         title, description, tag, user: req.user.id
+         title, description, tags, user: req.user.id
       })
       const savedNotes = notes.save();
       res.json(savedNotes);

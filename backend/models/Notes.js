@@ -17,6 +17,7 @@ const NotesSchema = new Schema({
     },
     tags: {
         type: String,
+        required: true,
     },
     timeStamp: {
         type: Date,
