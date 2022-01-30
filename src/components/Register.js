@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-const Register = () => {
+const Register = (props) => {
     let history = useNavigate();
     const [credentials, setCredentials] = useState({ name:"",email: "", password: "" });
 
@@ -16,12 +16,12 @@ const Register = () => {
             body: JSON.stringify({ name:credentials.name,email: credentials.email, password: credentials.password })
         })
         const data = await response.json();
-        console.log(data['authToken']);
         if (data['authToken']) {
+            props.showAlert("Account Created Successfully!!!", "success");
             localStorage.setItem('token', data['authToken']);
             history("/");
         } else {
-            alert("wrong Credentials");
+            props.showAlert("Please Try to Login With Valid Credentials!!!", "danger");
         }
     }
     const onChange = (e) => {
