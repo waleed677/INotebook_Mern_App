@@ -32,9 +32,9 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({"title":title,"description":description,"tags":tag})
     })
-    const data = await response.json();
-    console.log(data);
-   setNotes(notes.concat(data));
+    const note = await response.json();
+    setNotes(notes.concat(note));
+   
   }
 
   const deleteNote = async(id) => {

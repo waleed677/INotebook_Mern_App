@@ -93,7 +93,10 @@ const handleClick = (e) =>{
       </div>
       <div className="row my-3">
         <h2>Your Notes:</h2>
-        {notes.map((note) => {
+        <div className="container">
+        {notes.length === 0 && 'There is no Notes to Display' }
+        </div>
+        {notes.map((note,index) => {
           return <NotesItem key={note._id} updateNote={updateNote} note={note} />
         })}
       </div>
