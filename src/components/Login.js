@@ -17,7 +17,8 @@ const Login = () => {
             const data = await response.json();
             console.log(data['authToken']);
             if(data['authToken']){
-                    history("/");
+                localStorage.setItem('token', data['authToken']);
+                history("/");
             }else{
                 alert("wrong Credentials");
             }
